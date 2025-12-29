@@ -1,0 +1,22 @@
+[
+  {
+    "number": 1090,
+    "label": "Online Courses",
+    "icon": "book"
+  },
+  {
+    "number": 120,
+    "label": "Our Instructors",
+    "icon": "users"
+  },
+  {
+    "number": 120,
+    "label": "Total Video Lessons",
+    "icon": "video"
+  },
+  {
+    "number": 6000,
+    "label": "Students Enrolled",
+    "icon": "userCheck"
+  }
+]

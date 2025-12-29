@@ -1,0 +1,73 @@
+[
+  {
+    "id": 1,
+    "title": "JavaScript Basics",
+    "image": "https://cdn.pixabay.com/photo/2017/08/23/11/30/javascript-2673905_1280.png",
+    "description": "Learn core JavaScript syntax, variables, functions, loops, and essential DOM manipulation to build interactive and dynamic web applications easily.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 2,
+    "title": "Python for Beginners",
+    "image": "https://cdn.pixabay.com/photo/2019/07/02/13/27/python-4319112_1280.png",
+    "description": "Start programming with Python and learn data types, loops, functions, file handling, and problem-solving through practical beginner-friendly exercises.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 3,
+    "title": "ReactJS Fundamentals",
+    "image": "https://cdn.pixabay.com/photo/2021/06/15/12/28/react-6342684_1280.png",
+    "description": "Understand React components, props, state, hooks, and build fast, responsive user interfaces with real-world project examples and hands-on practice.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 4,
+    "title": "NodeJS Essentials",
+    "image": "https://cdn.pixabay.com/photo/2021/04/01/14/00/nodejs-6146577_1280.png",
+    "description": "Learn backend development using NodeJS, Express, APIs, routing, middleware, and database connectivity to build scalable server-side applications.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 5,
+    "title": "HTML & CSS",
+    "image": "https://cdn.pixabay.com/photo/2017/03/03/14/48/html5-2111328_1280.png",
+    "description": "Master HTML and CSS to structure web pages, style layouts, create responsive designs, and build visually appealing modern websites easily.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 6,
+    "title": "Java Programming",
+    "image": "https://cdn.pixabay.com/photo/2015/04/23/17/41/java-736401_1280.png",
+    "description": "Learn Java programming fundamentals, OOP concepts, data handling, and real-world applications for desktop, mobile, and enterprise software development.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 7,
+    "title": "C++ Programming",
+    "image": "https://cdn.pixabay.com/photo/2013/07/12/19/20/c-plus-plus-154969_1280.png",
+    "description": "Understand C++ basics, variables, loops, functions, pointers, and object-oriented programming to build efficient and high-performance applications.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 8,
+    "title": "Data Structures & Algorithms",
+    "image": "https://cdn.pixabay.com/photo/2020/08/14/10/38/algorithm-5489480_1280.png",
+    "description": "Learn essential data structures, algorithm techniques, problem-solving strategies, and complexity analysis for competitive programming and interviews.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 9,
+    "title": "Django Framework",
+    "image": "https://cdn.pixabay.com/photo/2020/09/12/21/26/django-5560530_1280.png",
+    "description": "Build secure, scalable web applications using Django’s powerful features including models, templates, authentication, and full CRUD functionality.",
+    "buttonText": "Enroll Now"
+  },
+  {
+    "id": 10,
+    "title": "Flutter App Development",
+    "image": "https://cdn.pixabay.com/photo/2022/12/14/12/39/flutter-7654820_1280.png",
+    "description": "Create beautiful cross-platform mobile apps using Flutter widgets, layouts, state management, and real-time testing for Android and iOS devices.",
+    "buttonText": "Enroll Now"
+  }
+]
+
