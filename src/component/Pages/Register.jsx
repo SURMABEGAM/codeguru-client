@@ -37,11 +37,8 @@ const Register = () => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
-    const image = e.target.image.value;
-    const password = e.target.password.value;
 
-    const newUserTwo = { name, email, image, password };
-    console.log(newUserTwo);
+    const password = e.target.password.value;
 
     setError("");
 
@@ -53,35 +50,32 @@ const Register = () => {
     //fireregister
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
-        updateProfile(result.user, { displayName: name })
-          .then(() => {
-            alert("Successfull");
-            // navigate("/login");
-          })
-          .catch((error) => setError(error.message));
+        return updateProfile(result.user, {
+          displayName: name,
+          email: email,
+        });
+      })
+      .then(() => {
+        // 🔥 server এ পাঠাও
+        const newUser = { name, email };
+        console.log(newUser);
+        fetch("http://localhost:3000/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newUser),
+        });
+      })
+      .then((res) => res.json())
+      .then(() => {
+        alert("Registration Successful 🎉");
+        navigate("/login"); // ✅ এখন কাজ করবে
       })
       .catch((error) => {
         if (error.code === "auth/email-already-in-use") {
           setError("This email is already registered!");
-        } else if (error.code === "auth/invalid-email") {
-          setError("Invalid email format");
         } else {
           setError(error.message);
         }
-      });
-
-    //server side
-
-    fetch("http://localhost:3000/register", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUserTwo),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Success:", data);
       });
   };
 
@@ -122,20 +116,10 @@ const Register = () => {
             />
           </div>
 
-          <div>
-            <input
-              name="image"
-              type="text"
-              placeholder="Image URL"
-              className="input input-bordered w-full bg-white/20 placeholder:text-gray-200 border-white/30"
-              required
-            />
-          </div>
-
           <div className="relative">
             <input
               name="password"
-              type="password"
+              type={showpass ? "text" : "password"}
               placeholder="Type your password"
               className="input input-bordered w-full bg-white/20 placeholder:text-gray-200 border-white/30"
               required
