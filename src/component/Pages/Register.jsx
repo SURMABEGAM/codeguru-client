@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { updateProfile } from "firebase/auth";
@@ -26,7 +27,7 @@ const Register = () => {
         setUser(result.user);
 
         setError("");
-        navigate("/");
+        navigate(location?.state || "/");
       })
       .catch((error) => {
         setError(error.message);
@@ -37,29 +38,40 @@ const Register = () => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
-
+    const photo = e.target.photo.value;
     const password = e.target.password.value;
 
     setError("");
 
     if (!name) return setError("Name is required");
     if (!email) return setError("Email is required");
+    if (!/[A-Z]/.test(password))
+      return setError("Password must include an uppercase letter");
+
+    if (!/[a-z]/.test(password))
+      return setError("Password must include a lowercase letter");
+
     if (password.length < 6)
-      return setError("Password must be at least 6 characters long");
+      return setError("Password must be at least 6 characters");
 
     //fireregister
     createUserWithEmailAndPassword(auth, email, password)
       .then((result) => {
         return updateProfile(result.user, {
           displayName: name,
-          email: email,
+          photoURL: photo,
         });
       })
       .then(() => {
-        // 🔥 server এ পাঠাও
-        const newUser = { name, email };
+        // send new user to server
+        const newUser = {
+          name,
+          email,
+          photo,
+          role: "student",
+        };
         console.log(newUser);
-        fetch("http://localhost:3000/register", {
+        return fetch("http://localhost:3000/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newUser),
@@ -67,14 +79,22 @@ const Register = () => {
       })
       .then((res) => res.json())
       .then(() => {
-        alert("Registration Successful 🎉");
-        navigate("/login"); // ✅ এখন কাজ করবে
+        return Swal.fire({
+          icon: "success",
+          title: "Registration Successful",
+          text: "Welcome to CodeGuru 🎉",
+          confirmButtonColor: "#6366f1",
+        }).then(() => {
+          navigate("/login");
+        });
       })
       .catch((error) => {
-        if (error.code === "auth/email-already-in-use") {
+        if (error && error.code === "auth/email-already-in-use") {
           setError("This email is already registered!");
-        } else {
+        } else if (error && error.message) {
           setError(error.message);
+        } else {
+          setError("Registration failed. Please try again.");
         }
       });
   };
@@ -115,6 +135,12 @@ const Register = () => {
               required
             />
           </div>
+
+          <input
+            name="photo"
+            placeholder="Photo URL"
+            className="input input-bordered w-full bg-white/20"
+          />
 
           <div className="relative">
             <input

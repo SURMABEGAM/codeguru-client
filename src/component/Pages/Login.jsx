@@ -1,25 +1,30 @@
-import { Link } from "react-router";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { Link, useLocation, useNavigate } from "react-router";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase/firebase.init";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Login = () => {
-  const [user, setUser] = useState();
   const [showPass, setShowPass] = useState(false);
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const googleProvider = new GoogleAuthProvider();
 
   const handleGoogleSignIn = () => {
     signInWithPopup(auth, googleProvider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-        setUser(user);
+      .then(() => {
+        Swal.fire("Success!", "Logged in with Google", "success");
+        navigate(from);
       })
-      .catch((error) => {
-        console.log("error", error.message);
-      });
+      .catch((err) => setError(err.message));
   };
 
   const handleLogin = (e) => {
@@ -29,92 +34,64 @@ const Login = () => {
     const password = e.target.password.value;
 
     console.log(email, password);
-
-    const newUser = { email, password };
-
-    fetch("http://localhost:3000/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newUser),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Success:", data);
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        Swal.fire("Welcome!", "Login successful", "success");
+        navigate(from);
+      })
+      .catch(() => {
+        setError("Invalid email or password");
       });
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-black px-4">
-      <div className="w-full max-w-md bg-linear-to-r from-indigo-900 to-pink-500 backdrop-blur-md border border-white/20 shadow-2xl rounded-3xl p-8 text-white">
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold">Welcome Back</h2>
-          <p className="text-sm opacity-80 mt-2">
-            Sign in to continue your journey
-          </p>
-        </div>
+      <div className="w-full max-w-md rounded-3xl p-8 text-white bg-linear-to-r from-indigo-900 to-pink-500">
+        <h2 className="text-3xl font-bold text-center mb-6">Login</h2>
 
         <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="label-text text-sm mb-1 block">Name</label>
-            <input
-              name="name"
-              placeholder="Your name"
-              className="input input-bordered w-full bg-white/20 placeholder:text-gray-200 border-white/30"
-            />
-          </div>
-
-          <div>
-            <label className="label-text text-sm mb-1 block">Email</label>
-            <input
-              name="email"
-              type="email"
-              placeholder="you@example.com"
-              className="input input-bordered w-full bg-white/20 placeholder:text-gray-200 border-white/30"
-              required
-            />
-          </div>
-
+          <input
+            name="email"
+            type="email"
+            placeholder="Email"
+            required
+            className="input w-full"
+          />
           <div className="relative">
             <input
-              type={showPass ? "text" : "password"}
-              className="input input-bordered w-full pr-10 bg-white/20 border-white/30"
-              placeholder="Enter password"
               name="password"
+              type={showPass ? "text" : "password"}
+              placeholder="Password"
               required
+              className="input w-full pr-10"
             />
             <button
               type="button"
-              className="absolute right-3 top-3 text-lg text-gray-200"
               onClick={() => setShowPass(!showPass)}
+              className="absolute right-3 top-3"
             >
               {showPass ? <FaEyeSlash /> : <FaEye />}
             </button>
           </div>
 
-          <button
-            type="submit"
-            className="btn btn-block bg-linear-to-r from-indigo-900 to-pink-500 border-0 shadow-lg text-white"
-          >
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
+          <button className="btn btn-block bg-indigo-600 text-white">
             Login
           </button>
 
           <button
             type="button"
-            className="btn btn-outline btn-secondary flex items-center gap-2 w-full mt-2"
             onClick={handleGoogleSignIn}
+            className="btn btn-outline w-full"
           >
             <FaGoogle /> Continue with Google
           </button>
 
-          <p className="text-center text-sm text-white/80 mt-4">
-            Don't have an account?{" "}
-            <Link
-              to="/register"
-              className="font-semibold text-white hover:underline"
-            >
-              Register now
+          <p className="text-center text-sm mt-4">
+            New here?{" "}
+            <Link to="/register" className="underline">
+              Register
             </Link>
           </p>
         </form>
