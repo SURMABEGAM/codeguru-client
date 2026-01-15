@@ -1,26 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../component/context/AuthContext';
+import axiosPublic from './AxiosPublic';
 
 const useRole = () => {
  const { user } = useContext(AuthContext);
   const [role, setRole] = useState("guest");
-  const [loading, setLoading] = useState(true);
+  const [roleloading, setRoleLoading] = useState(true);
 
   useEffect(()=>{
       if (user?.email) {
-      fetch(`http://localhost:3000/users/role/${user.email}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setRole(data.role);
-          setLoading(false);
+         axiosPublic
+      .get(`/users/role/${user.email}`)
+       
+        .then((res) => {
+          setRole(res.data.role);
+          setRoleLoading(false);
         });
     }
-  },[]);
+  },[user]);
 
 
 
     return (
- { role, loading }
+ { role, roleloading }
     );
 };
 

@@ -8,33 +8,6 @@ const DashboardLayout = () => {
   if (loading) {
     return <div className="p-10">Loading...</div>;
   }
-  //student links
-  {
-    role === "student" && (
-      <>
-        <NavLink to="/dashboard/my-courses">My Courses</NavLink>
-        <NavLink to="/dashboard/payments">Payments</NavLink>
-      </>
-    );
-  }
-  //instructor links
-  {
-    role === "instructor" && (
-      <>
-        <NavLink to="/dashboard/add-course">Add Course</NavLink>
-        <NavLink to="/dashboard/my-courses">My Courses</NavLink>
-      </>
-    );
-  }
-  //admin links
-  {
-    role === "admin" && (
-      <>
-        <NavLink to="/dashboard/manage-users">Manage Users</NavLink>
-        <NavLink to="/dashboard/manage-courses">Manage Courses</NavLink>
-      </>
-    );
-  }
 
   return (
     <div className="flex min-h-screen">
@@ -43,12 +16,35 @@ const DashboardLayout = () => {
         <h2 className="text-xl font-bold mb-6">Dashboard</h2>
 
         <nav className="flex flex-col gap-3">
+          {/* Common links */}
           <NavLink to="/dashboard" end>
             Home
           </NavLink>
           <NavLink to="/dashboard/profile">Profile</NavLink>
 
-          {/* role based nav here */}
+          {/* 🔥 STUDENT */}
+          {role === "student" && (
+            <>
+              <NavLink to="/dashboard/my-courses">My Courses</NavLink>
+              <NavLink to="/dashboard/payments">Payments</NavLink>
+            </>
+          )}
+
+          {/* 🔥 INSTRUCTOR */}
+          {role === "instructor" && (
+            <>
+              <NavLink to="/dashboard/add-course">Add Course</NavLink>
+              <NavLink to="/dashboard/my-courses">My Courses</NavLink>
+            </>
+          )}
+
+          {/* 🔥 ADMIN */}
+          {role === "admin" && (
+            <>
+              <NavLink to="/dashboard/manage-users">Manage Users</NavLink>
+              <NavLink to="/dashboard/manage-courses">Manage Courses</NavLink>
+            </>
+          )}
         </nav>
       </aside>
 

@@ -12,6 +12,10 @@ import Error from "../Pages/Error";
 import DashboardLayout from "../Pages/DashboardLayout";
 import DashboardHome from "../Deshboad/DashboardHome";
 import Profile from "../Deshboad/Profile ";
+import InstructorRoute from "./InstructorRoute";
+import AdminRoute from "./AdminRoute";
+import ManageUsers from "../Deshboad/ManageUsers";
+import AdminManageCourses from "../Deshboad/AdminManageCourses";
 
 export const router = createBrowserRouter([
   {
@@ -38,17 +42,33 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <DashboardHome /> },
           { path: "profile", element: <Profile /> },
+          {
+            path: "add-course",
+            element: (
+              <InstructorRoute>
+                <AddCouse />
+              </InstructorRoute>
+            ),
+          },
+          {
+            path: "manage-users",
+            element: (
+              <AdminRoute>
+                <ManageUsers />
+              </AdminRoute>
+            ),
+          },
+          {
+            path: "manage-courses",
+            element: (
+              <AdminRoute>
+                <AdminManageCourses />
+              </AdminRoute>
+            ),
+          },
         ],
       },
 
-      {
-        path: "/add-course",
-        element: (
-          <PriviteRoutes>
-            <AddCouse />
-          </PriviteRoutes>
-        ),
-      },
       {
         path: "/my-enrolled",
         Component: MyCoues,
