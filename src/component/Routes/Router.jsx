@@ -16,6 +16,8 @@ import InstructorRoute from "./InstructorRoute";
 import AdminRoute from "./AdminRoute";
 import ManageUsers from "../Deshboad/ManageUsers";
 import AdminManageCourses from "../Deshboad/AdminManageCourses";
+import AllCourses from "../Pages/AllCourses";
+import CourseDetails from "../Pages/CourseDetails";
 
 export const router = createBrowserRouter([
   {
@@ -76,6 +78,16 @@ export const router = createBrowserRouter([
       {
         path: "/my-added",
         Component: MyAdded,
+      },
+      {
+        path: "/courses",
+        element: <AllCourses />,
+        //    loader: () => fetch("http://localhost:5000/courses"),
+      },
+
+      {
+        path: "/courses/:id",
+        element: <CourseDetails />,
       },
     ],
   },

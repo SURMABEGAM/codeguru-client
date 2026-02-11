@@ -22,7 +22,7 @@ const Navbar = () => {
           Swal.fire(
             "Logged Out!",
             "You have successfully logged out.",
-            "success"
+            "success",
           );
         });
       }
@@ -42,7 +42,12 @@ const Navbar = () => {
           <NavLink to="/">Home</NavLink>
           <NavLink to="/courses">Courses</NavLink>
 
-          {user && <NavLink to="/dashboard">Dashboard</NavLink>}
+          {user && (
+            <>
+              <NavLink to="/dashboard">Dashboard</NavLink>
+              <NavLink to="/dashboard/add-course">Add Course</NavLink>
+            </>
+          )}
 
           {user ? (
             <div className="flex items-center gap-3">

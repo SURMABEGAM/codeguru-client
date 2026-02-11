@@ -4,13 +4,13 @@ import axiosPublic from './AxiosPublic';
 
 const useRole = () => {
  const { user } = useContext(AuthContext);
-  const [role, setRole] = useState("guest");
+  const [role, setRole] = useState("");
   const [roleloading, setRoleLoading] = useState(true);
 
   useEffect(()=>{
       if (user?.email) {
          axiosPublic
-      .get(`/users/role/${user.email}`)
+      .get(`/users/${user.email}`)
        
         .then((res) => {
           setRole(res.data.role);

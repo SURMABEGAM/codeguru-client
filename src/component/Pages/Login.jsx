@@ -36,12 +36,17 @@ const Login = () => {
     console.log(email, password);
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        Swal.fire("Welcome!", "Login successful", "success");
-        navigate(from);
+        return fetch("http://localhost:5000/users", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
       })
       .catch(() => {
         setError("Invalid email or password");
       });
+
+    //post method for jwt token
   };
 
   return (

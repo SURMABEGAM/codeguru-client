@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import { axiosPublic } from "../../hooks/AxiosPublic";
+import axiosPublic from "../../hooks/AxiosPublic";
 
 const MyCoues = () => {
   const [courses, setCourses] = useState([]);

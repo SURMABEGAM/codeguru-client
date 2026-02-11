@@ -67,11 +67,10 @@ const Register = () => {
         const newUser = {
           name,
           email,
-          photo,
-          role: "student",
+          password,
         };
         console.log(newUser);
-        return fetch("http://localhost:3000/users", {
+        return fetch("http://localhost:5000/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(newUser),
