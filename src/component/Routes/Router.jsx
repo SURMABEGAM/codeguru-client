@@ -18,6 +18,7 @@ import ManageUsers from "../Deshboad/ManageUsers";
 import AdminManageCourses from "../Deshboad/AdminManageCourses";
 import AllCourses from "../Pages/AllCourses";
 import CourseDetails from "../Pages/CourseDetails";
+import MyCourses from "../Deshboad/MyCoues";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +45,7 @@ export const router = createBrowserRouter([
         children: [
           { index: true, element: <DashboardHome /> },
           { path: "profile", element: <Profile /> },
+          { path: "my-courses", element: <MyCourses /> }, // ✅ FIXED
           {
             path: "add-course",
             element: (

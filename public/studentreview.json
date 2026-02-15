@@ -1,0 +1,45 @@
+[
+  {
+    "name": "Tisha Begum",
+    "image": "https://randomuser.me/api/portraits/women/50.jpg",
+    "course": "React & JavaScript",
+    "review": "This course completely transformed my coding skills! Highly recommended.",
+    "rating": 5
+  },
+  {
+    "name": "John Doe",
+    "image": "https://randomuser.me/api/portraits/men/45.jpg",
+    "course": "Fullstack Development",
+    "review": "Amazing instructors and very clear explanations. I loved it!",
+    "rating": 4
+  },
+  {
+    "name": "Ayesha Rahman",
+    "image": "https://randomuser.me/api/portraits/women/30.jpg",
+    "course": "Node.js & Express",
+    "review": "Learned a lot in just a few weeks. The assignments were very practical.",
+    "rating": 5
+  },
+  {
+    "name": "David Lee",
+    "image": "https://randomuser.me/api/portraits/men/22.jpg",
+    "course": "UI/UX Design",
+    "review": "The design projects helped me build a strong portfolio. Excellent course!",
+    "rating": 4
+  },
+  {
+    "name": "Sarah Khan",
+    "image": "https://randomuser.me/api/portraits/women/35.jpg",
+    "course": "Python & Django",
+    "review": "The course content is well structured and easy to follow. Loved it!",
+    "rating": 5
+  },
+  {
+    "name": "Michael Brown",
+    "image": "https://randomuser.me/api/portraits/men/55.jpg",
+    "course": "C# & .NET",
+    "review": "Very professional and knowledgeable instructors. Highly recommended!",
+    "rating": 4
+  }
+]
+

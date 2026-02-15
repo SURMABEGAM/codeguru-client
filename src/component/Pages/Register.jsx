@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { Link, useNavigate } from "react-router";
@@ -10,31 +11,47 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
+import axiosPublic from "../../hooks/AxiosPublic";
 
 const Register = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState();
+
+  const user = useContext(AuthContext);
+  console.log(user); // <-- use context
   const [error, setError] = useState("");
   const [showpass, setShowpass] = useState(false);
 
-  //google  provider register
   const provider = new GoogleAuthProvider();
 
-  const handleGoogleLogin = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result.user);
-        setUser(result.user);
-
-        setError("");
-        navigate(location?.state || "/");
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
+  // Google login
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      result.user;
+      setError("");
+      navigate(location.state?.from || "/");
+    } catch (err) {
+      setError(err.message);
+    }
   };
+  //imgbb
+  const handleImageUpload = async (file) => {
+    const formData = new FormData();
+    formData.append("image", file);
 
-  const handleregister = (e) => {
+    const res = await fetch(
+      `https://api.imgbb.com/1/upload?key=1aa77c2554528a6abe4f4a8800e392c2`,
+      {
+        method: "POST",
+        body: formData,
+      },
+    );
+
+    const data = await res.json();
+    return data.data.display_url; // image link
+  };
+  // Email/password registration
+  const handleregister = async (e) => {
     e.preventDefault();
     const name = e.target.name.value;
     const email = e.target.email.value;
@@ -47,55 +64,38 @@ const Register = () => {
     if (!email) return setError("Email is required");
     if (!/[A-Z]/.test(password))
       return setError("Password must include an uppercase letter");
-
     if (!/[a-z]/.test(password))
       return setError("Password must include a lowercase letter");
-
     if (password.length < 6)
       return setError("Password must be at least 6 characters");
 
-    //fireregister
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((result) => {
-        return updateProfile(result.user, {
-          displayName: name,
-          photoURL: photo,
-        });
-      })
-      .then(() => {
-        // send new user to server
-        const newUser = {
-          name,
-          email,
-          password,
-        };
-        console.log(newUser);
-        return fetch("http://localhost:5000/users", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newUser),
-        });
-      })
-      .then((res) => res.json())
-      .then(() => {
-        return Swal.fire({
-          icon: "success",
-          title: "Registration Successful",
-          text: "Welcome to CodeGuru 🎉",
-          confirmButtonColor: "#6366f1",
-        }).then(() => {
-          navigate("/login");
-        });
-      })
-      .catch((error) => {
-        if (error && error.code === "auth/email-already-in-use") {
-          setError("This email is already registered!");
-        } else if (error && error.message) {
-          setError(error.message);
-        } else {
-          setError("Registration failed. Please try again.");
-        }
-      });
+    try {
+      // Firebase registration
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      await updateProfile(result.user, { displayName: name, photoURL: photo });
+      result.user;
+
+      // Send to server
+      const newUser = { name, email, password };
+      console.log(newUser);
+      await axiosPublic.post("http://localhost:5000/register", newUser);
+      console.log("User registered on server", result.user);
+      Swal.fire({
+        icon: "success",
+        title: "Registration Successful",
+        text: "Welcome to CodeGuru 🎉",
+        confirmButtonColor: "#6366f1",
+      }).then(() => navigate("/"));
+    } catch (err) {
+      if (err.response?.data?.message) setError(err.response.data.message);
+      else if (err.code === "auth/email-already-in-use")
+        setError("This email is already registered!");
+      else setError(err.message || "Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -134,10 +134,10 @@ const Register = () => {
               required
             />
           </div>
-
           <input
+            onSubmit={handleImageUpload}
             name="photo"
-            placeholder="Photo URL"
+            type="file"
             className="input input-bordered w-full bg-white/20"
           />
 

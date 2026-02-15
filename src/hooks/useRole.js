@@ -1,29 +1,34 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../component/context/AuthContext';
-import axiosPublic from './AxiosPublic';
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../component/context/AuthContext";
+import axiosPublic from "./AxiosPublic";
 
 const useRole = () => {
- const { user } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const [role, setRole] = useState("");
-  const [roleloading, setRoleLoading] = useState(true);
+  const [roleLoading, setRoleLoading] = useState(true);
 
-  useEffect(()=>{
+  useEffect(() => {
+    const fetchRole = async () => {
       if (user?.email) {
-         axiosPublic
-      .get(`/users/${user.email}`)
-       
-        .then((res) => {
+        try {
+          const encodedEmail = encodeURIComponent(user.email); // @ encode করা
+          const res = await axiosPublic.get(`/users/${encodedEmail}`);
           setRole(res.data.role);
+        } catch (err) {
+          console.error("Failed to fetch user role:", err);
+          setRole(""); // ইউজার না থাকলে
+        } finally {
           setRoleLoading(false);
-        });
-    }
-  },[user]);
+        }
+      } else {
+        setRoleLoading(false);
+      }
+    };
 
+    fetchRole();
+  }, [user]);
 
-
-    return (
- { role, roleloading }
-    );
+  return { role, roleLoading };
 };
 
 export default useRole;

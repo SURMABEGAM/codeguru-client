@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "name": "John Smith",
+    "image": "https://randomuser.me/api/portraits/men/32.jpg",
+    "courses": 12,
+    "skills": ["JavaScript", "React", "Node.js"],
+    "education": "B.Sc. in Computer Science"
+  },
+  {
+    "id": 2,
+    "name": "Sarah Khan",
+    "image": "https://randomuser.me/api/portraits/women/44.jpg",
+    "courses": 8,
+    "skills": ["Python", "Django", "Machine Learning"],
+    "education": "M.Sc. in Data Science"
+  },
+  {
+    "id": 3,
+    "name": "David Lee",
+    "image": "https://randomuser.me/api/portraits/men/12.jpg",
+    "courses": 15,
+    "skills": ["HTML", "CSS", "UI/UX Design"],
+    "education": "B.Des. in UI/UX Design"
+  },
+  {
+    "id": 4,
+    "name": "Emma Watson",
+    "image": "https://randomuser.me/api/portraits/women/68.jpg",
+    "courses": 10,
+    "skills": ["Java", "Spring Boot", "Microservices"],
+    "education": "B.Sc. in Software Engineering"
+  },
+  {
+    "id": 5,
+    "name": "Michael Brown",
+    "image": "https://randomuser.me/api/portraits/men/55.jpg",
+    "courses": 6,
+    "skills": ["C#", ".NET", "SQL"],
+    "education": "M.Sc. in Information Technology"
+  },
+  {
+    "id": 6,
+    "name": "Ayesha Rahman",
+    "image": "https://randomuser.me/api/portraits/women/25.jpg",
+    "courses": 9,
+    "skills": ["React", "Node.js", "GraphQL"],
+    "education": "B.Sc. in Computer Engineering"
+  }
+]

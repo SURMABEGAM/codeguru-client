@@ -23,12 +23,7 @@ const DashboardLayout = () => {
           <NavLink to="/dashboard/profile">Profile</NavLink>
 
           {/* 🔥 STUDENT */}
-          {role === "student" && (
-            <>
-              <NavLink to="/dashboard/my-courses">My Courses</NavLink>
-              <NavLink to="/dashboard/payments">Payments</NavLink>
-            </>
-          )}
+          {role === "student" && <></>}
 
           {/* 🔥 INSTRUCTOR */}
           {role === "instructor" && (
@@ -49,7 +44,7 @@ const DashboardLayout = () => {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-6 bg-gray-100">
+      <main className="flex-1 p-6 bg-gray-500">
         <Outlet />
       </main>
     </div>
