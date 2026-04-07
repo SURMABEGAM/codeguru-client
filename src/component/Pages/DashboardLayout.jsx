@@ -1,11 +1,12 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router";
 import useRole from "../../hooks/useRole";
+import Loader from "../home/Loader";
 
 const DashboardLayout = () => {
   const { role, roleLoading } = useRole();
 
-  if (roleLoading) return <div className="p-10">Loading...</div>;
+  if (roleLoading) return <Loader />;
 
   return (
     <div className="flex min-h-screen">

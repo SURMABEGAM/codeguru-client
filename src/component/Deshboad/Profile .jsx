@@ -1,15 +1,14 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import useRole from "../../hooks/useRole";
+import Loader from "../home/Loader";
 
 const Profile = () => {
   const { user } = useContext(AuthContext);
   const { role, roleloading } = useRole();
 
   if (roleloading) {
-    return (
-      <p className="text-indigo-600 font-medium animate-pulse">Loading...</p>
-    );
+    return <Loader />;
   }
 
   return (
