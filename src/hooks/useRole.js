@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../component/context/AuthContext";
 import axiosPublic from "./AxiosPublic";
 
@@ -11,12 +11,11 @@ const useRole = () => {
     const fetchRole = async () => {
       if (user?.email) {
         try {
-          const encodedEmail = encodeURIComponent(user.email); // @ encode করা
-          const res = await axiosPublic.get(`/users/${encodedEmail}`);
-          setRole(res.data.role);
+          const res = await axiosPublic.get(`/users/${encodeURIComponent(user.email)}`);
+          setRole(res.data.role || "student");
         } catch (err) {
           console.error("Failed to fetch user role:", err);
-          setRole(""); // ইউজার না থাকলে
+          setRole("student"); 
         } finally {
           setRoleLoading(false);
         }
@@ -24,7 +23,6 @@ const useRole = () => {
         setRoleLoading(false);
       }
     };
-
     fetchRole();
   }, [user]);
 

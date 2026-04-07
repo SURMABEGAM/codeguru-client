@@ -7,25 +7,30 @@ const Profile = () => {
   const { role, roleloading } = useRole();
 
   if (roleloading) {
-    return <p>Loading...</p>;
+    return (
+      <p className="text-indigo-600 font-medium animate-pulse">Loading...</p>
+    );
   }
 
   return (
-    <div className="max-w-xl bg-white p-6 rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-4">My Profile</h2>
+    <div className="max-w-xl bg-gradient-to-br from-indigo-50 to-indigo-600 mt-10 p-8 rounded-2xl shadow-xl">
+      <h2 className="text-2xl font-bold text-indigo-700 mb-10">My Profile</h2>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
         <img
           src={user?.photoURL}
           alt="profile"
-          className="w-20 h-20 rounded-full border"
+          className="w-24 h-24 rounded-full border-4 border-indigo-400 shadow-md"
         />
 
         <div>
-          <p className="font-semibold">{user?.displayName}</p>
-          <p className="text-sm text-gray-600">{user?.email}</p>
+          <p className="text-lg font-semibold text-slate-800">
+            {user?.displayName}
+          </p>
 
-          <span className="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded">
+          <p className="text-sm text-slate-600">{user?.email}</p>
+
+          <span className="inline-block mt-2 text-xs bg-indigo-200 text-indigo-700 px-3 py-1 rounded-full font-medium">
             {role}
           </span>
         </div>

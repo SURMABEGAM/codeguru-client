@@ -1,7 +1,6 @@
 # 🎓 CodeGuru – Online Learning Platform
 
-Live Site: https://codeguru-client.web.app  
-Server: https://codeguru-server.vercel.app
+Live Site: https://codeguru-project.netlify.app/
 
 ## 📌 Project Overview
 

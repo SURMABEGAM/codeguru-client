@@ -3,29 +3,20 @@ import { NavLink, Outlet } from "react-router";
 import useRole from "../../hooks/useRole";
 
 const DashboardLayout = () => {
-  const { role, loading } = useRole();
+  const { role, roleLoading } = useRole();
 
-  if (loading) {
-    return <div className="p-10">Loading...</div>;
-  }
+  if (roleLoading) return <div className="p-10">Loading...</div>;
 
   return (
     <div className="flex min-h-screen">
       {/* Sidebar */}
       <aside className="w-64 bg-gray-900 text-white p-5">
         <h2 className="text-xl font-bold mb-6">Dashboard</h2>
-
         <nav className="flex flex-col gap-3">
-          {/* Common links */}
-          <NavLink to="/dashboard" end>
-            Home
-          </NavLink>
+          <NavLink to="/dashboard">Home</NavLink>
           <NavLink to="/dashboard/profile">Profile</NavLink>
 
-          {/* 🔥 STUDENT */}
-          {role === "student" && <></>}
-
-          {/* 🔥 INSTRUCTOR */}
+          {/* Instructor */}
           {role === "instructor" && (
             <>
               <NavLink to="/dashboard/add-course">Add Course</NavLink>
@@ -33,7 +24,12 @@ const DashboardLayout = () => {
             </>
           )}
 
-          {/* 🔥 ADMIN */}
+          {/* Student */}
+          {role === "student" && (
+            <NavLink to="/dashboard/my-courses">My Enrolled Courses</NavLink>
+          )}
+
+          {/* Admin */}
           {role === "admin" && (
             <>
               <NavLink to="/dashboard/manage-users">Manage Users</NavLink>
@@ -44,7 +40,7 @@ const DashboardLayout = () => {
       </aside>
 
       {/* Main content */}
-      <main className="flex-1 p-6 bg-gray-500">
+      <main className="flex-1 p-6 bg-gray-100">
         <Outlet />
       </main>
     </div>
