@@ -2,7 +2,9 @@ import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import axiosPublic from "../../hooks/AxiosPublic";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router";
 const AddCouse = () => {
+  const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,9 @@ const AddCouse = () => {
       const res = await axiosPublic.post("/courses", courseData);
       if (res.data.insertedId) {
         Swal.fire("Success!", "Course added successfully", "success");
+
         form.reset();
+        navigate("/home");
       }
     } catch (error) {
       console.error(error);
