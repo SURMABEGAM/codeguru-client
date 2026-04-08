@@ -31,27 +31,29 @@ const AdminManageCourses = () => {
   };
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-4">
+      <h2 className="text-2xl text-indigo-700 font-bold mb-4">
         Pending Courses ({courses.length})
       </h2>
 
       <div className="grid md:grid-cols-2 gap-4">
         {courses.map((course) => (
           <div key={course._id} className="bg-white p-4 rounded shadow">
-            <h3 className="font-semibold">{course.title}</h3>
-            <p>Instructor: {course.instructorEmail}</p>
-            <p>Status: {course.status}</p>
+            <h3 className="font-semibold text-indigo-600">{course.title}</h3>
+            <p className="text-gray-700">
+              Instructor: {course.instructorEmail}
+            </p>
+            <p className="text-gray-700">Status: {course.status}</p>
 
             <div className="flex gap-2 mt-3">
               <button
                 onClick={() => handleApprove(course._id)}
-                className="btn btn-success btn-sm"
+                className="btn btn-success btn-sm btn-primary"
               >
                 Approve
               </button>
               <button
                 onClick={() => handleReject(course._id)}
-                className="btn btn-error btn-sm"
+                className="btn btn-error btn-sm btn-primary"
               >
                 Reject
               </button>

@@ -25,7 +25,7 @@ const ManageUsers = () => {
 
             // UI update
             setUsers((prev) =>
-              prev.map((u) => (u._id === id ? { ...u, role } : u))
+              prev.map((u) => (u._id === id ? { ...u, role } : u)),
             );
           }
         });
@@ -35,10 +35,10 @@ const ManageUsers = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mb-6">Manage Users</h2>
+      <h2 className="text-2xl font-bold text-indigo-600 mb-6">Manage Users</h2>
 
       <div className="overflow-x-auto">
-        <table className="table w-full">
+        <table className="table text-black w-full">
           <thead>
             <tr>
               <th>#</th>
