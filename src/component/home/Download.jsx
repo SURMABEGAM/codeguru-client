@@ -52,7 +52,7 @@ const Download = () => {
   }
 
   return (
-    <section className="w-full px-4 md:px-10 -mt-20 z-50 relative mb-48">
+    <section className="w-full px-4 md:px-10 -mt-20 z-50 relative mb-8">
       <div className="bg-[#080748] rounded-3xl shadow-2xl py-12 px-6 md:px-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-10 text-center text-white">
           {stats.map((item, index) => (

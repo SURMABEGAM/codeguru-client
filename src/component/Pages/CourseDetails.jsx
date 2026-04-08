@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router";
 import axiosPublic from "../../hooks/AxiosPublic";
-
+import Loader from "../home/Loader";
 import Swal from "sweetalert2";
 import { AuthContext } from "../context/AuthContext";
 import axios from "axios";
@@ -43,22 +43,28 @@ const CourseDetails = () => {
         Swal.fire("Success!", "You have enrolled in the course!", "success");
       })
       .catch(() => {
-        Swal.fire("Error!", "Something went wrong!", "error");
+        Swal.fire("Error!", "Already enrolled!", "error");
       });
   };
 
-  if (!course) return <p className="p-6">Loading course...</p>;
+  if (!course) return <Loader />;
 
   return (
-    <div className="max-w-4xl mx-auto p-6 mt-6 bg-white rounded-lg shadow">
-      <h1 className="text-3xl font-bold text-center mb-4">{course.title}</h1>
+    <div className="max-w-4xl mx-auto p-6  bg-white rounded-lg shadow">
+      <h1 className="text-3xl font-bold text-center  text-indigo-700 mt-15 mb-3">
+        {course.title}
+      </h1>
       <img
         src={course.image}
         className="w-full h-64 object-cover rounded-lg mb-4"
       />
-      <h1 className="text-3xl font-bold mb-3">{course.title}</h1>
+      <h1 className="text-3xl font-bold text-indigo-500 mb-3">
+        {course.title}
+      </h1>
       <p className="text-gray-700 mb-4">{course.description}</p>
-      <p className="font-semibold">Price: ${course.price || "Free"}</p>
+      <p className="font-semibold  text-indigo-500">
+        Price: ${course.price || "Free"}
+      </p>
       <button onClick={handleEnroll} className="btn btn-primary mt-4">
         Enroll Now
       </button>

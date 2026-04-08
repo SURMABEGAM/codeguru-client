@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link, Navigate, useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import axiosPublic from "../../hooks/AxiosPublic";
+import Loader from "../home/Loader";
 import { AuthContext } from "../context/AuthContext";
 import Swal from "sweetalert2";
 
@@ -72,8 +73,8 @@ const AllCourses = () => {
   };
 
   return (
-    <div className="grid md:grid-cols-3 mt-6 gap-6 p-4 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold text-center col-span-full text-white mt-4">
+    <div className="grid md:grid-cols-3 gap-6 p-4 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold text-center col-span-full text-white mt-26 mb-5">
         All Courses
       </h1>
       {courses.map((course) => (
