@@ -25,7 +25,7 @@ const AllCourses = () => {
       });
   }, []);
 
-  if (loading) return <p>Loading courses...</p>;
+  if (loading) return <Loader />;
 
   const handleEnroll = async (courseId) => {
     if (!user?.email) {
@@ -72,7 +72,10 @@ const AllCourses = () => {
   };
 
   return (
-    <div className="grid md:grid-cols-3  gap-6 p-4 max-w-7xl mx-auto">
+    <div className="grid md:grid-cols-3 mt-6 gap-6 p-4 max-w-7xl mx-auto">
+      <h1 className="text-3xl font-bold text-center col-span-full text-white mt-4">
+        All Courses
+      </h1>
       {courses.map((course) => (
         <div
           key={course._id}
