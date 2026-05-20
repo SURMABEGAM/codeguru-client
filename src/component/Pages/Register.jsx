@@ -2,45 +2,38 @@ import { useContext, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
-import { Link, useNavigate } from "react-router";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { updateProfile } from "firebase/auth";
+import { Link, useLocation, useNavigate } from "react-router";
+import { FaEye, FaEyeSlash, FaGoogle, FaUserAstronaut } from "react-icons/fa";
+
 import {
   GoogleAuthProvider,
   signInWithPopup,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
+
+import { updateProfile } from "firebase/auth";
 import { auth } from "../firebase/firebase.init";
 import axiosPublic from "../../hooks/AxiosPublic";
 
 const Register = () => {
-  const navigate = useNavigate();
+  const { setUser } = useContext(AuthContext);
 
-  const user = useContext(AuthContext);
-  console.log(user); // <-- use context
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [error, setError] = useState("");
   const [showpass, setShowpass] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const provider = new GoogleAuthProvider();
 
-  // Google login
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      result.user;
-      setError("");
-      navigate(location.state?.from || "/");
-    } catch (err) {
-      setError(err.message);
-    }
-  };
-  //imgbb
+  // IMAGE UPLOAD
   const handleImageUpload = async (file) => {
     const formData = new FormData();
     formData.append("image", file);
 
     const res = await fetch(
-      `https://api.imgbb.com/1/upload?key=1aa77c2554528a6abe4f4a8800e392c2`,
+      "https://api.imgbb.com/1/upload?key=1aa77c2554528a6abe4f4a8800e392c2",
       {
         method: "POST",
         body: formData,
@@ -48,152 +41,245 @@ const Register = () => {
     );
 
     const data = await res.json();
-    return data.data.display_url; // image link
+    return data.data.display_url;
   };
-  // Email/password registration
+
+  // GOOGLE LOGIN
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+
+      setUser(result.user);
+
+      Swal.fire({
+        icon: "success",
+        title: "Login Successful 🎉",
+        timer: 1500,
+        showConfirmButton: false,
+      });
+
+      navigate(location.state?.from || "/");
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  // REGISTER
   const handleregister = async (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
-    const email = e.target.email.value;
-    const photo = e.target.photo.value;
-    const password = e.target.password.value;
+
+    const form = e.target;
+
+    const name = form.name.value;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const imageFile = form.photo.files[0];
 
     setError("");
 
-    if (!name) return setError("Name is required");
-    if (!email) return setError("Email is required");
-    if (!/[A-Z]/.test(password))
-      return setError("Password must include an uppercase letter");
-    if (!/[a-z]/.test(password))
-      return setError("Password must include a lowercase letter");
-    if (password.length < 6)
-      return setError("Password must be at least 6 characters");
+    if (!/[A-Z]/.test(password)) {
+      return setError("Password must contain uppercase letter");
+    }
+
+    if (!/[a-z]/.test(password)) {
+      return setError("Password must contain lowercase letter");
+    }
+
+    if (password.length < 6) {
+      return setError("Password must be minimum 6 characters");
+    }
 
     try {
-      // Firebase registration
+      setLoading(true);
+
+      // upload image
+      const photo = await handleImageUpload(imageFile);
+
+      // firebase register
       const result = await createUserWithEmailAndPassword(
         auth,
         email,
         password,
       );
-      await updateProfile(result.user, { displayName: name, photoURL: photo });
-      result.user;
 
-      // Send to server
-      const newUser = { name, email, password };
-      console.log(newUser);
-      await axiosPublic.post("http://localhost:5000/register", newUser);
-      console.log("User registered on server", result.user);
+      // update profile
+      await updateProfile(result.user, {
+        displayName: name,
+        photoURL: photo,
+      });
+
+      // save db
+      const newUser = {
+        name,
+        email,
+        photo,
+      };
+
+      await axiosPublic.post("/register", newUser);
+
       Swal.fire({
         icon: "success",
-        title: "Registration Successful",
-        text: "Welcome to CodeGuru 🎉",
+        title: "Registration Successful 🎉",
+        text: "Welcome to CodeGuru",
         confirmButtonColor: "#6366f1",
-      }).then(() => navigate("/"));
+      });
+
+      navigate(location.state?.from || "/");
     } catch (err) {
-      if (err.response?.data?.message) setError(err.response.data.message);
-      else if (err.code === "auth/email-already-in-use")
-        setError("This email is already registered!");
-      else setError(err.message || "Registration failed. Please try again.");
+      if (err.code === "auth/email-already-in-use") {
+        setError("Email already exists");
+      } else {
+        setError(err.message);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="min-h-screen flex items-center justify-center bg-black px-4"
-    >
+    <div className="min-h-screen relative overflow-hidden bg-[#020617] flex items-center justify-center px-4 py-10">
+      {/* BACKGROUND GLOW */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-indigo-600/20 blur-3xl rounded-full"></div>
+
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-pink-500/20 blur-3xl rounded-full"></div>
+
+      {/* CARD */}
       <motion.div
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="w-full max-w-md bg-linear-150-to-r from-indigo-900 to-pink-300 backdrop-blur-md border border-white/20 shadow-2xl rounded-3xl p-8 text-white"
+        initial={{ opacity: 0, y: 40 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="relative z-10 w-full max-w-md"
       >
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold">Create Account</h2>
-          <p className="text-sm opacity-80 mt-2">Register to get started</p>
-        </div>
-        {/* Correct Form */}
-        <form onSubmit={handleregister} className="space-y-5">
-          <div>
-            <input
-              name="name"
-              placeholder="Your name"
-              className="input input-bordered w-full bg-white/20 placeholder:text-gray-200 border-white/30"
-            />
+        <div className="backdrop-blur-2xl bg-white/5 border border-white/10 shadow-2xl rounded-3xl p-8">
+          {/* TOP */}
+          <div className="text-center mb-8">
+            <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-r from-indigo-500 to-pink-500 flex items-center justify-center text-3xl text-white shadow-lg shadow-indigo-500/30">
+              <FaUserAstronaut />
+            </div>
+
+            <h2 className="text-3xl font-bold text-white mt-5">
+              Create Account
+            </h2>
+
+            <p className="text-gray-400 mt-2 text-sm">
+              Join CodeGuru and start your journey
+            </p>
           </div>
 
-          <div>
-            <input
-              name="email"
-              type="email"
-              placeholder="you@example.com"
-              className="input input-bordered w-full bg-white/20 placeholder:text-gray-200 border-white/30"
-              required
-            />
-          </div>
-          <input
-            onSubmit={handleImageUpload}
-            name="photo"
-            type="file"
-            className="input input-bordered w-full bg-white/20"
-          />
+          {/* FORM */}
+          <form onSubmit={handleregister} className="space-y-5">
+            {/* NAME */}
+            <div>
+              <label className="text-sm text-gray-300 mb-2 block">
+                Full Name
+              </label>
 
-          <div className="relative">
-            <input
-              name="password"
-              type={showpass ? "text" : "password"}
-              placeholder="Type your password"
-              className="input input-bordered w-full bg-white/20 placeholder:text-gray-200 border-white/30"
-              required
-            />
+              <input
+                name="name"
+                type="text"
+                placeholder="Enter your name"
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-gray-500 outline-none focus:border-indigo-500 transition"
+                required
+              />
+            </div>
+
+            {/* EMAIL */}
+            <div>
+              <label className="text-sm text-gray-300 mb-2 block">
+                Email Address
+              </label>
+
+              <input
+                name="email"
+                type="email"
+                placeholder="you@example.com"
+                className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-gray-500 outline-none focus:border-indigo-500 transition"
+                required
+              />
+            </div>
+
+            {/* PHOTO */}
+            <div>
+              <label className="text-sm text-gray-300 mb-2 block">
+                Profile Photo
+              </label>
+
+              <input
+                name="photo"
+                type="file"
+                className="file-input file-input-bordered w-full bg-white/10 border-white/10 text-white"
+                required
+              />
+            </div>
+
+            {/* PASSWORD */}
+            <div>
+              <label className="text-sm text-gray-300 mb-2 block">
+                Password
+              </label>
+
+              <div className="relative">
+                <input
+                  name="password"
+                  type={showpass ? "text" : "password"}
+                  placeholder="Create password"
+                  className="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/10 text-white placeholder:text-gray-500 outline-none focus:border-indigo-500 transition"
+                  required
+                />
+
+                <button
+                  type="button"
+                  onClick={() => setShowpass(!showpass)}
+                  className="absolute right-4 top-4 text-gray-400"
+                >
+                  {showpass ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+            </div>
+
+            {/* ERROR */}
+            {error && (
+              <p className="text-red-400 text-sm text-center">{error}</p>
+            )}
+
+            {/* REGISTER BUTTON */}
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.96 }}
+              disabled={loading}
+              className="w-full py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-pink-500 hover:opacity-90 transition text-white font-semibold shadow-lg shadow-indigo-500/20"
+            >
+              {loading ? "Creating Account..." : "Register Now"}
+            </motion.button>
+
+            {/* DIVIDER */}
+            <div className="divider text-gray-500">OR</div>
+
+            {/* GOOGLE */}
             <button
               type="button"
-              className="absolute right-3 top-3 text-lg text-gray-600"
-              onClick={() => setShowpass(!showpass)}
+              onClick={handleGoogleLogin}
+              className="w-full py-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 transition text-white font-medium flex items-center justify-center gap-3"
             >
-              {showpass ? <FaEyeSlash /> : <FaEye />}
+              <FaGoogle className="text-lg" />
+              Continue with Google
             </button>
-          </div>
-          {error && <p className="text-red-600 text-sm text-center">{error}</p>}
 
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="btn btn-block bg-linear-to-r from-indigo-500 to-pink-500 border-0 shadow-lg text-white"
-          >
-            Register
-          </motion.button>
-          <div className="divider">OR</div>
-
-          {/* Google Login */}
-          <button
-            onClick={handleGoogleLogin}
-            className="btn btn-outline w-full"
-          >
-            <img
-              src="https://www.svgrepo.com/show/475656/google-color.svg"
-              alt="g"
-              width="22"
-              className="mr-2"
-            />
-            Continue with Google
-          </button>
-
-          <p className="text-center text-sm text-white/80 mt-4">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="font-semibold text-white hover:underline"
-            >
-              Login now
-            </Link>
-          </p>
-        </form>
+            {/* LOGIN */}
+            <p className="text-center text-sm text-gray-400 mt-6">
+              Already have an account?{" "}
+              <Link
+                to="/login"
+                className="text-indigo-400 hover:text-indigo-300 font-medium"
+              >
+                Login
+              </Link>
+            </p>
+          </form>
+        </div>
       </motion.div>
-    </motion.div>
+    </div>
   );
 };
 
