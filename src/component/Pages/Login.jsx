@@ -5,7 +5,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { useState } from "react";
-import { auth } from "../firebase/firebase.init";
+import { auth } from "../Firebase/firebase.init";
 import { FaEye, FaEyeSlash, FaGoogle } from "react-icons/fa";
 import Swal from "sweetalert2";
 

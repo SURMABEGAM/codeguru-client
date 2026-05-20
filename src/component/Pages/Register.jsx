@@ -12,7 +12,7 @@ import {
 } from "firebase/auth";
 
 import { updateProfile } from "firebase/auth";
-import { auth } from "../firebase/firebase.init";
+import { auth } from "../Firebase/firebase.init";
 import axiosPublic from "../../hooks/AxiosPublic";
 
 const Register = () => {
