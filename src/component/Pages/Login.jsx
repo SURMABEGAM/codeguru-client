@@ -36,7 +36,7 @@ const Login = () => {
     console.log(email, password);
     signInWithEmailAndPassword(auth, email, password)
       .then(() => {
-        return fetch("http://localhost:5000/users", {
+        return fetch("https://code-guru-server-nu.vercel.app/users", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password }),
