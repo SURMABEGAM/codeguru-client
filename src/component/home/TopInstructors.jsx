@@ -52,10 +52,10 @@ const TopInstructors = () => {
             <p className="text-center  text-black font-medium">
               Courses: {ins.courses}
             </p>
-            <p className="text-center text-gray-600 font-medium">
+            <p className="text-center text-gray-900 font-medium">
               {ins.skills}
             </p>
-            <p className="text-center text-gray-600 font-medium">
+            <p className="text-center text-gray-900 font-medium">
               {ins.education}
             </p>
           </motion.div>
