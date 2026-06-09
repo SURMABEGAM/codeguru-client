@@ -1,16 +1,22 @@
 import React from "react";
-import Baner from "../home/Banner";
-import Download from "../home/Download";
+
 import TopInstructors from "../home/TopInstructors";
 import StudentReveiw from "../home/StudentReveiw";
-import LatestCourses from "../home/LatestCourses";
+
+import HeroSection from "../home/HeroSection";
+import StatisticsSection from "../home/StatisticsSection";
+import HowItWorksSection from "../home/HowItWorksSection";
+import TestimonialsSection from "../home/TestimonialsSection";
+import NewsletterSection from "../home/NewsletterSection";
 
 const Home = () => {
   return (
     <div>
-      <Baner></Baner>
-      <Download></Download>
-      <LatestCourses></LatestCourses>
+      <HeroSection />
+      <StatisticsSection />
+      <HowItWorksSection />
+      <TestimonialsSection />
+      <NewsletterSection />
       <TopInstructors> </TopInstructors>
       <StudentReveiw> </StudentReveiw>
     </div>

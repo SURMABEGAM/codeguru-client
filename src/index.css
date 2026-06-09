@@ -2,7 +2,4 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-body{
-    @apply bg-cover bg-center bg-no-repeat bg-fixed;
-    background-image: url('/Polygon .svg')
-}
+@custom-variant dark (&:where(.dark, .dark *));
