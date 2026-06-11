@@ -1,13 +1,11 @@
 import React from "react";
-
 import TopInstructors from "../home/TopInstructors";
-import StudentReveiw from "../home/StudentReveiw";
-
 import HeroSection from "../home/HeroSection";
 import StatisticsSection from "../home/StatisticsSection";
 import HowItWorksSection from "../home/HowItWorksSection";
 import TestimonialsSection from "../home/TestimonialsSection";
-import NewsletterSection from "../home/NewsletterSection";
+import AddReview from "../home/TestimonialsSection";
+// import NewsletterSection from "../home/NewsletterSection";
 
 const Home = () => {
   return (
@@ -16,9 +14,9 @@ const Home = () => {
       <StatisticsSection />
       <HowItWorksSection />
       <TestimonialsSection />
-      <NewsletterSection />
+      {/* <NewsletterSection /> */}
       <TopInstructors> </TopInstructors>
-      <StudentReveiw> </StudentReveiw>
+      <AddReview></AddReview>
     </div>
   );
 };

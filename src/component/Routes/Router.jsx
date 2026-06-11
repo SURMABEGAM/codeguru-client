@@ -20,7 +20,7 @@ import AllCourses from "../Pages/AllCourses";
 import CourseDetails from "../Pages/CourseDetails";
 import MyCourses from "../Deshboad/MyCoues";
 
-export const router = createBrowserRouter([
+const router = createBrowserRouter([
   {
     path: "/",
     Component: Root,
@@ -93,3 +93,4 @@ export const router = createBrowserRouter([
     ],
   },
 ]);
+export default router;

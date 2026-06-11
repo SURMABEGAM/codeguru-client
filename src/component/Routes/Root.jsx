@@ -6,7 +6,7 @@ import Footer from "../Pages/Footer";
 //Toaster
 const Root = () => {
   return (
-    <div className="flex min-h-screen flex-col bg-gradient-to-r from-blue-300 to-blue-200 dark:from-gray-800 dark:to-gray-900">
+    <div className="flex min-h-screen flex-col ">
       <main className="min-h-screen">
         <Navber></Navber>
         <Outlet />
