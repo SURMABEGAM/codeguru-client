@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router";
 import axiosPublic from "../../hooks/AxiosPublic";
 import Loader from "../home/Loader";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthProvider";
 import Swal from "sweetalert2";
 
 const AllCourses = () => {

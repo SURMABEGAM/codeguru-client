@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router";
 import axiosPublic from "../../hooks/AxiosPublic";
 import Loader from "../home/Loader";
 import Swal from "sweetalert2";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthProvider";
 
 const CourseDetails = () => {
   const { id } = useParams();

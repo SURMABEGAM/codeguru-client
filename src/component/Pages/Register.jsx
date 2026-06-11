@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthProvider";
 import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 import { Link, useLocation, useNavigate } from "react-router";

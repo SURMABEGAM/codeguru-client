@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import Swal from "sweetalert2";
 import axiosPublic from "../../hooks/AxiosPublic";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../context/AuthProvider";
 import useRole from "../../hooks/useRole";
 
 const MyCourses = () => {
